@@ -15,7 +15,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    prismlauncher.url = "github:PrismLauncher/PrismLauncher";
+    prismlauncher = {
+      url = "github:PrismLauncher/PrismLauncher";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -25,8 +28,8 @@
         packages = let prism = inputs.prismlauncher.packages.${system}; in {
           default = self'.packages.prism-fast;
         } // (import ./prism.nix { inherit pkgs system prism; });
-        devShells.default = {
-          nativeBuildInputs = self'.packages.default;
+        devShells.default = pkgs.mkShell {
+          nativeBuildInputs = [ self'.packages.default ];
         };
       };
     };

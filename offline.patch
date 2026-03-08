@@ -1,0 +1,17 @@
+--- ./launcher/LaunchController.cpp	1970-01-01 01:00:01.000000000 +0100
++++ ./launcher/LaunchController.cpp	1970-01-01 01:00:01.000000000 +0100
+@@ -190,14 +190,8 @@
+     switch (state) {
+         case AccountState::Errored:
+         case AccountState::Expired:
+-            reauthReason = tr("'%1' has expired and needs to be reauthenticated").arg(accountToCheck->profileName());
+-            break;
+         case AccountState::Disabled:
+-            reauthReason = tr("The launcher's client identification has changed");
+-            break;
+         case AccountState::Gone:
+-            reauthReason = tr("'%1' no longer exists on the servers").arg(accountToCheck->profileName());
+-            break;
+         default:
+             m_actualLaunchMode =
+                 state == AccountState::Online && m_wantedLaunchMode == LaunchMode::Normal ? LaunchMode::Normal : LaunchMode::Offline;
